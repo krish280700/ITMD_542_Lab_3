@@ -29,13 +29,13 @@ exports.contacts_edit_get = function(req, res, next) {
     res.render('contacts/add', { title: 'Edit Contact', layout: 'edit', contact: contact} );
 };
 
-/* POST todos delete */
+/* POST contacts delete */
 exports.contacts_delete_post = function(req, res, next) {
     contactsRepo.deleteById(req.params.id);
     res.redirect('/contacts/list');
 };
 
-/* POST todos add */
+/* POST contacts add */
 exports.contacts_create_post = function(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
@@ -50,7 +50,6 @@ exports.contacts_create_post = function(req, res, next) {
 
 // Post contact edit
 exports.contacts_edit_post = function(req, res, next) {
-    //console.log(req.body);
     const result = validationResult(req);
     if (!result.isEmpty()) {
       const contact = contactsRepo.findById(req.params.id);

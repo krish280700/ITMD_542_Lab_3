@@ -11,7 +11,9 @@ block content
             label(for="email") Email 
             input.form-control(type="text" name='email' value=(layout == 'edit') ? contact.email : '') 
             label(for="notes") Notes 
-            textarea.form-control(name="notes", cols="30", rows="10") #{(layout == 'edit') ? contact.notes : ''} 
+            textarea.form-control(name="notes", cols="30", rows="10") #{(layout == 'edit') ? contact.notes : ''}
+            if msg || msg.length
+                p Something Went wrong
             if layout == 'edit'
                 button.btn.btn-success(type='submit') Update
             else
