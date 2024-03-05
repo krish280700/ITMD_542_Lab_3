@@ -38,10 +38,10 @@ exports.contacts_delete_post = function(req, res, next) {
 /* POST contacts add */
 exports.contacts_create_post = function(req, res, next) {
     const result = validationResult(req);
+    const {first_name, last_name, email, notes} = req.body
     if (!result.isEmpty()) {
-        res.render('contacts/add', {title: 'Add a Contact', msg: result.array()});
+        res.render('contacts/add', {title: 'Add a Contact', msg: result.array(), contact: {first_name, last_name, email, notes}});
     } else {
-        const {first_name, last_name, email, notes} = req.body
         const newContact = new Contact('', first_name, last_name, email, notes);
         contactsRepo.create(newContact);
         res.redirect('/contacts/list');
@@ -51,11 +51,11 @@ exports.contacts_create_post = function(req, res, next) {
 // Post contact edit
 exports.contacts_edit_post = function(req, res, next) {
     const result = validationResult(req);
+    const {first_name, last_name, email, notes} = req.body
     if (!result.isEmpty()) {
       const contact = contactsRepo.findById(req.params.id);
-      res.render('contacts/add', {title: 'Edit Contact', layout: 'edit', msg: result.array(), contact: contact});
+      res.render('contacts/add', {title: 'Edit Contact', layout: 'edit', msg: result.array(), contact: {...contact, first_name, last_name, email, notes}});
     } else {
-        const {first_name, last_name, email, notes} = req.body
         const updatedContact = new Contact(req.params.id, first_name, last_name, email, notes);
         contactsRepo.update(updatedContact);
         res.redirect('/contacts/list');

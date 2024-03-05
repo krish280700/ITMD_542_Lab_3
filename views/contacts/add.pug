@@ -2,18 +2,25 @@ extends ../layout
 
 block content
     div.container
-        h1 Update Contact
+        if layout == 'edit'
+            h1 Update Contact
+        else
+            h1 Add Contact
         form(action=`${layout == 'edit' ? `/contacts/${contact.id}/edit` : '/contacts'}` method="post")
             label(for="first_name") First Name 
-            input.form-control(type="text" name='first_name' value= (layout == 'edit') ? contact.first_name : '' ) 
+            input.form-control(type="text" name='first_name' value= (layout == 'edit' || (contact && contact.first_name)) ? contact.first_name : '' )
             label(for="last_name") Last Name 
-            input.form-control(type="text" name='last_name' value=(layout == 'edit') ? contact.last_name : '') 
+            input.form-control(type="text" name='last_name' value=(layout == 'edit' || (contact && contact.last_name)) ? contact.last_name : '') 
             label(for="email") Email 
-            input.form-control(type="text" name='email' value=(layout == 'edit') ? contact.email : '') 
+            input.form-control(type="text" name='email' value=(layout == 'edit' || (contact && contact.email)) ? contact.email : '') 
             label(for="notes") Notes 
             textarea.form-control(name="notes", cols="30", rows="10") #{(layout == 'edit') ? contact.notes : ''}
-            if msg || msg.length
-                p Something Went wrong
+            ul
+                if msg && msg.length
+                    each val, index in msg
+                        li= val.msg
+            
+
             if layout == 'edit'
                 button.btn.btn-success(type='submit') Update
             else
